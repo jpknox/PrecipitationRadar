@@ -9,7 +9,7 @@
     <input type="button" id="downBtn" value="down" />
     <input type="button" id="rightBtn" value="right" />
 </form> -->
-<div id="map">
+<canvas id="map" width="512" height="256">
 </div>
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAROrVqnn1z022ZlVp67vgmcmoBskRmx2o"></script>
     <script type="text/javascript">
@@ -51,8 +51,24 @@
 		}
 		
 		window.addEventListener("load",
-			loadFullMap(), false);
+			buildImage(), false);
 		
+		function buildImage() {
+			var canvas = document.getElementById("map");
+			var context = canvas.getContext("2d");
+			
+			var imageObj1 = new Image();
+			imageObj1.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=0&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5";
+			imageObj1.onload = function() {
+				context.drawImage(imageObj1, 0, 0);
+			};
+			
+			var imageObj2 = new Image();
+			imageObj2.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=1&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5";
+			imageObj2.onload = function() {
+				context.drawImage(imageObj2, 256, 0);
+			};
+		}
 		
 		
 		function moveMap(x, y) {
@@ -66,10 +82,6 @@
             img = document.createElement('img');
             img.src = completeUrl;
 			document.getElementById('map').appendChild(img);
-		}
-		
-		function PrecipitationOverlay() {
-			
 		}
 		
 		//Move left
