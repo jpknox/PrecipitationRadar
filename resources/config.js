@@ -1,3 +1,0 @@
-googleConfig = {
-	key: ""
-}
