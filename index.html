@@ -3,131 +3,57 @@
 	<link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
-<!-- <form>
-    <input type="button" id="leftBtn" value="left" />
-    <input type="button" id="upBtn" value="up" />
-    <input type="button" id="downBtn" value="down" />
-    <input type="button" id="rightBtn" value="right" />
-</form> -->
-<canvas id="map" />
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAROrVqnn1z022ZlVp67vgmcmoBskRmx2o"></script>
-    <script type="text/javascript">
-	
-		var matrixVersion = 2;
-		var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion;
-		var rowURL = "&TILEROW=";
-		var columnURL = "&TILECOL=";
-		var endUrl = "&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5";
-		var completeUrl = "";
-		//var globalX = 0;
-		//var globalY = 0;
-		var dimension = 4;
-		var rows = dimension;
-		var columns = dimension;
-		
-		function buildImage() {
-			var tileEdgeLength = 256;
-			var canvas = document.getElementById("map");
-			canvas.width = tileEdgeLength * columns;
-			canvas.height = tileEdgeLength * rows;
-			var context = canvas.getContext("2d");
-			
-			var numberOfTiles = columns * rows;
-			var mapTiles = new Array();
-			
-			var x, y, tileIndex = 0;
-			for (y = 0; y < rows; y++) {
-				for (x = 0; x < columns; x++) {
-					var completeUrl = baseUrl + rowURL + y + columnURL + x + endUrl;
-					var mapTile = new Image();
-					mapTile.src = completeUrl;
-					mapTile.onload = function() {
-						context.drawImage(mapTile, (columns % dimension) * tileEdgeLength, (rows % dimension) * tileEdgeLength)
-					}
-					mapTiles[tileIndex++] = mapTile;
-				}
-			}
-			
-			<!-- var imageObj1 = new Image(); -->
-			<!-- imageObj1.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=0&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5"; -->
-			<!-- imageObj1.onload = function() { -->
-				<!-- context.drawImage(imageObj1, 0, 0); -->
-			<!-- }; -->
-			
-			<!-- var imageObj2 = new Image(); -->
-			<!-- imageObj2.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=1&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5"; -->
-			<!-- imageObj2.onload = function() { -->
-				<!-- context.drawImage(imageObj2, 256, 0); -->
-			<!-- }; -->
-		}
-		
-		window.addEventListener("load",
-			buildImage(), false);
-		
-		function loadFullMap() {
-			console.log("Loading full map with " + rows + " rows and " + columns + " columns.");
-			map = document.getElementById('map');
-			while (map.hasChildNodes()) {
-				map.removeChild(map.lastChild);
-			}
-			
-			var table = document.createElement("table");
-			var x, y;
-			for (y = 0; y < rows; y++) {
-				var tableRow = document.createElement("tr");
-				for (x = 0; x < columns; x++) {
-					var completeUrl = baseUrl + y + midUrl + x + endUrl;
-					img = document.createElement('img');
-					img.src = completeUrl;
-					//img.class = "floated_img";
-					var tableColumn	= document.createElement("td");
-					tableColumn.appendChild(img);
-					tableRow.appendChild(tableColumn);
-					//document.getElementById('map').appendChild(img);
-				}
-				table.appendChild(tableRow);
-			}
-			map.appendChild(table);
-		}
-		
-		
-		function moveMap(x, y) {
-			console.log("x:" + x + ", y:" + y);
-			map = document.getElementById('map');
-			while (map.hasChildNodes()) {
-				map.removeChild(map.lastChild);
-			}
-			
-			var completeUrl = baseUrl + x + midUrl + y + endUrl;
-            img = document.createElement('img');
-            img.src = completeUrl;
-			document.getElementById('map').appendChild(img);
-		}
-		
-		//Move left
-		<!-- document.getElementById("leftBtn").onclick = function() { -->
-			<!-- if (globalY > 0) { --globalY; } -->
-			<!-- moveMap(globalX, globalY); -->
-		<!-- } -->
-		
-		<!-- //Move up -->
-		<!-- document.getElementById("upBtn").onclick = function() { -->
-			<!-- if (globalX > 0) { --globalX; } -->
-			<!-- moveMap(globalX, globalY); -->
-		<!-- } -->
-		
-		<!-- //Move down -->
-		<!-- document.getElementById("downBtn").onclick = function() { -->
-			<!-- if (globalX < columns-1) { ++globalX; } -->
-			<!-- moveMap(globalX, globalY); -->
-		<!-- } -->
-		
-		<!-- //Move right -->
-		<!-- document.getElementById("rightBtn").onclick = function() { -->
-			<!-- if (globalY < columns-1) { ++globalY; } -->
-			<!-- moveMap(globalX, globalY); -->
-		<!-- } -->
-    </script>
+	<canvas id="map"/>
 </body>
 </html>
 
+
+<script type="text/javascript">
+	var matrixVersion = 2;
+	var dimension = 4;
+	var tileEdgeLength = 256;
+	var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion;
+	var rowURL = "&TILEROW=";
+	var columnURL = "&TILECOL=";
+	var endUrl = "&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5";
+	var completeUrl;
+	var rows = dimension;
+	var columns = dimension;
+	
+	function buildImage() {
+		var canvas = document.getElementById("map");
+		canvas.width = tileEdgeLength * columns;
+		canvas.height = tileEdgeLength * rows;
+		var context = canvas.getContext("2d");
+		
+		var numberOfTiles = columns * rows;
+		var mapTiles = new Array();
+		
+		var x, y, tileIndex = 0;
+		var completeURL;
+		var mapTile;
+		var colDEBUG = 0;
+		var rowDEBUG = 0
+		for (y = 0; y < rows; y++) {
+			for (x = 0; x < columns; x++) {
+				completeURL = baseUrl + rowURL + y + columnURL + x + endUrl;
+				mapTile = new Image();
+				mapTile.src = completeURL;
+				mapTile.onload = wrapDrawImage(mapTile, context, x, y);
+				console.log("Drawing a tile originating at x:" + (x % dimension) * tileEdgeLength + " y:" + (y % dimension) * tileEdgeLength + "\t with URL:" + completeURL);
+				mapTiles[tileIndex++] = mapTile;
+			}
+		}
+	}
+	
+	function wrapDrawImage(mapTile, context, x, y) {
+		return function() {
+					context.drawImage(mapTile, (x % dimension) * tileEdgeLength, (y % dimension) * tileEdgeLength);
+				};
+	}
+	
+	window.addEventListener("load",
+		buildImage(), false);
+	
+</script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAROrVqnn1z022ZlVp67vgmcmoBskRmx2o"></script>
