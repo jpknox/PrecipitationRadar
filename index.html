@@ -9,20 +9,60 @@
     <input type="button" id="downBtn" value="down" />
     <input type="button" id="rightBtn" value="right" />
 </form> -->
-<canvas id="map" width="512" height="256">
-</div>
+<canvas id="map" />
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAROrVqnn1z022ZlVp67vgmcmoBskRmx2o"></script>
     <script type="text/javascript">
 	
 		var matrixVersion = 2;
-		var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion + "&TILEROW=";
-		var midUrl = "&TILECOL=";
+		var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion;
+		var rowURL = "&TILEROW=";
+		var columnURL = "&TILECOL=";
 		var endUrl = "&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5";
 		var completeUrl = "";
 		//var globalX = 0;
 		//var globalY = 0;
-		var rows = 4;
-		var columns = 4;		
+		var dimension = 4;
+		var rows = dimension;
+		var columns = dimension;
+		
+		function buildImage() {
+			var tileEdgeLength = 256;
+			var canvas = document.getElementById("map");
+			canvas.width = tileEdgeLength * columns;
+			canvas.height = tileEdgeLength * rows;
+			var context = canvas.getContext("2d");
+			
+			var numberOfTiles = columns * rows;
+			var mapTiles = new Array();
+			
+			var x, y, tileIndex = 0;
+			for (y = 0; y < rows; y++) {
+				for (x = 0; x < columns; x++) {
+					var completeUrl = baseUrl + rowURL + y + columnURL + x + endUrl;
+					var mapTile = new Image();
+					mapTile.src = completeUrl;
+					mapTile.onload = function() {
+						context.drawImage(mapTile, (columns % dimension) * tileEdgeLength, (rows % dimension) * tileEdgeLength)
+					}
+					mapTiles[tileIndex++] = mapTile;
+				}
+			}
+			
+			<!-- var imageObj1 = new Image(); -->
+			<!-- imageObj1.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=0&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5"; -->
+			<!-- imageObj1.onload = function() { -->
+				<!-- context.drawImage(imageObj1, 0, 0); -->
+			<!-- }; -->
+			
+			<!-- var imageObj2 = new Image(); -->
+			<!-- imageObj2.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=1&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5"; -->
+			<!-- imageObj2.onload = function() { -->
+				<!-- context.drawImage(imageObj2, 256, 0); -->
+			<!-- }; -->
+		}
+		
+		window.addEventListener("load",
+			buildImage(), false);
 		
 		function loadFullMap() {
 			console.log("Loading full map with " + rows + " rows and " + columns + " columns.");
@@ -48,26 +88,6 @@
 				table.appendChild(tableRow);
 			}
 			map.appendChild(table);
-		}
-		
-		window.addEventListener("load",
-			buildImage(), false);
-		
-		function buildImage() {
-			var canvas = document.getElementById("map");
-			var context = canvas.getContext("2d");
-			
-			var imageObj1 = new Image();
-			imageObj1.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=0&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5";
-			imageObj1.onload = function() {
-				context.drawImage(imageObj1, 0, 0);
-			};
-			
-			var imageObj2 = new Image();
-			imageObj2.src = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:2&TILEROW=0&TILECOL=1&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5";
-			imageObj2.onload = function() {
-				context.drawImage(imageObj2, 256, 0);
-			};
 		}
 		
 		
