@@ -3,9 +3,12 @@
 	<link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
-	<canvas id="map"/>
+	<!-- <canvas id="map"></canvas> -->
+	<div id="googleMap" />
+	
+	<!-- 3.5West longitude -->
+	<!-- 55.5North latitude -->
 </body>
-</html>
 
 <script src="resources/config.js"></script>
 <script type="text/javascript">
@@ -19,6 +22,15 @@
 	var completeUrl;
 	var rows = dimension;
 	var columns = dimension;
+	
+	function initMap() {
+		var map = new google.maps.Map(document.getElementById('googleMap'), {
+			zoom: 5,
+			center: {lat: 55.500000, lng: -3.500000},
+			mapTypeId: 'satellite'
+        });
+		console.log("Building Google's Map");
+	}
 	
 	function buildImage() {
 		console.log("API key:" + config.MetOfficeDataPointkey);
@@ -55,8 +67,10 @@
 				};
 	}
 	
-	window.addEventListener("load",
-		buildImage(), false);
+	<!-- window.addEventListener("load", -->
+		<!-- buildImage(), false); -->
 	
 </script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAROrVqnn1z022ZlVp67vgmcmoBskRmx2o"></script>
+<script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_z6QLzYZK_1bCIAt5UX8IQ7paen7RGz4&callback=initMap"></script>
+
+</html>
