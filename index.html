@@ -9,19 +9,19 @@
 
 <script src="resources/config.js"></script>
 <script type="text/javascript">
-	var matrixVersion = 2;
-	var dimension = 4;
+	var matrixVersion = 1;
+	var dimension = Math.pow(2, matrixVersion);
 	var tileEdgeLength = 256;
 	var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion;
 	var rowURL = "&TILEROW=";
 	var columnURL = "&TILECOL=";
-	var endUrl = "&key=" + googleConfig.key;
+	var endUrl = "&key=" + config.MetOfficeDataPointkey;
 	var completeUrl;
 	var rows = dimension;
 	var columns = dimension;
 	
 	function buildImage() {
-		console.log("API key:" + googleConfig.key);
+		console.log("API key:" + config.MetOfficeDataPointkey);
 		var canvas = document.getElementById("map");
 		canvas.width = tileEdgeLength * columns;
 		canvas.height = tileEdgeLength * rows;
@@ -45,6 +45,8 @@
 				mapTiles[tileIndex++] = mapTile;
 			}
 		}
+		
+		canvas.style.width = window.screen.width;
 	}
 	
 	function wrapDrawImage(mapTile, context, x, y) {
