@@ -36,18 +36,21 @@
 
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 11,
-          center: {lat: 62.323907, lng: -150.109291},
+          zoom: 6,
+          center: {lat: 54.500000, lng: -3.500000},
           mapTypeId: 'satellite'
         });
 
         var bounds = new google.maps.LatLngBounds(
-            new google.maps.LatLng(62.281819, -150.287132),
-            new google.maps.LatLng(62.400471, -150.005608));
+            new google.maps.LatLng(48.000000, -12.000000),
+            new google.maps.LatLng(61.000000, 5.000000));
 
         // The photograph is courtesy of the U.S. Geological Survey.
-        var srcImage = 'https://developers.google.com/maps/documentation/' +
-            'javascript/examples/full/images/talkeetna.png';
+        var srcImage = 'http://datapoint.metoffice.gov.uk/public/data/layer/' +
+                        'wxobs/RADAR_UK_Composite_Highres/png?TIME=2017-11-16T18:30:00Z' +
+                        '&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5'
+        // var srcImage = 'https://developers.google.com/maps/documentation/' +
+        //     'javascript/examples/full/images/talkeetna.png';
 
         // The custom USGSOverlay object contains the USGS image,
         // the bounds of the image, and a reference to the map.

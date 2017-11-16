@@ -3,9 +3,9 @@
 	<link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
-	<!-- <canvas id="map"></canvas> -->
+	<canvas id="map"></canvas>
 	<div id="googleMap" />
-	
+
 	<!-- 3.5West longitude -->
 	<!-- 55.5North latitude -->
 </body>
@@ -22,7 +22,7 @@
 	var completeUrl;
 	var rows = dimension;
 	var columns = dimension;
-	
+
 	function initMap() {
 		var map = new google.maps.Map(document.getElementById('googleMap'), {
 			zoom: 5,
@@ -31,17 +31,17 @@
         });
 		console.log("Building Google's Map");
 	}
-	
+
 	function buildImage() {
 		console.log("API key:" + config.MetOfficeDataPointkey);
 		var canvas = document.getElementById("map");
 		canvas.width = tileEdgeLength * columns;
 		canvas.height = tileEdgeLength * rows;
 		var context = canvas.getContext("2d");
-		
+
 		var numberOfTiles = columns * rows;
 		var mapTiles = new Array();
-		
+
 		var x, y, tileIndex = 0;
 		var completeURL;
 		var mapTile;
@@ -57,20 +57,20 @@
 				mapTiles[tileIndex++] = mapTile;
 			}
 		}
-		
+
 		canvas.style.width = window.screen.width;
 	}
-	
+
 	function wrapDrawImage(mapTile, context, x, y) {
 		return function() {
 					context.drawImage(mapTile, (x % dimension) * tileEdgeLength, (y % dimension) * tileEdgeLength);
 				};
 	}
-	
-	<!-- window.addEventListener("load", -->
-		<!-- buildImage(), false); -->
-	
+
+	window.addEventListener("load",
+		buildImage(), false);
+
 </script>
-<script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_z6QLzYZK_1bCIAt5UX8IQ7paen7RGz4&callback=initMap"></script>
+<!-- <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_z6QLzYZK_1bCIAt5UX8IQ7paen7RGz4&callback=initMap"></script> -->
 
 </html>

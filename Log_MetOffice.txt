@@ -1,0 +1,10 @@
+Current observation
+	First attempt. 		http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5
+	From documentation. http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5
+	
+	BaseURL
+		http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/{LayerName}/{ImageFormat}?TIME={Time}Z&key={key}
+		<Service name="OBSERVATIONS">
+		<LayerName>RADAR_UK_Composite_Highres</LayerName>
+		<ImageFormat>png</ImageFormat>
+		http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/RADAR_UK_Composite_Highres/png?TIME=2017-11-16T18:30:00Z&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5
