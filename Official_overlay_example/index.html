@@ -18,16 +18,15 @@
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_z6QLzYZK_1bCIAt5UX8IQ7paen7RGz4"></script>
+    <script src="parseXml.js"></script>
     <script>
-      // This example creates a custom overlay called USGSOverlay, containing
-      // a U.S. Geological Survey (USGS) image of the relevant area on the map.
 
-      // Set the custom overlay object's prototype to a new instance
-      // of OverlayView. In effect, this will subclass the overlay class therefore
-      // it's simpler to load the API synchronously, using
-      // google.maps.event.addDomListener().
-      // Note that we set the prototype to an instance, rather than the
-      // parent class itself, because we do not wish to modify the parent class.
+      //Get the preliminary image data
+      var xmlhttp=false;
+      loadXMLDoc('http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5');
+      
+
+      //Get the image
 
       var overlay;
       USGSOverlay.prototype = new google.maps.OverlayView();

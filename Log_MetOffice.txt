@@ -8,3 +8,6 @@ Current observation
 		<LayerName>RADAR_UK_Composite_Highres</LayerName>
 		<ImageFormat>png</ImageFormat>
 		http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/RADAR_UK_Composite_Highres/png?TIME=2017-11-16T18:30:00Z&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5
+		
+	XPath query to retrieve the most recent date from the XML document
+		W.I.P /Layers/Layer[@displayName="Rainfall"]/Service[@name="OBSERVATIONS"]/Times
