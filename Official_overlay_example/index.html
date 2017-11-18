@@ -22,9 +22,17 @@
     <script>
 
       //Get the preliminary image data
-      var xmlhttp=false;
-      loadXMLDoc('http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5');
-      
+      var xmlDoc = loadXMLDoc('http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5');
+      // console.log(xmlHttp);
+      var latestDate = xmlDoc.evaluate(
+        '/Layers/Layer[@displayName="Rainfall"]/Service[@name="OBSERVATIONS"]/Times/Time[1]',
+        xmlDoc,
+        null,
+        XPathResult.STRING_TYPE,
+        null
+      );
+      console.log(latestDate.stringValue);
+
 
       //Get the image
 
@@ -46,7 +54,8 @@
 
         // The photograph is courtesy of the U.S. Geological Survey.
         var srcImage = 'http://datapoint.metoffice.gov.uk/public/data/layer/' +
-                        'wxobs/RADAR_UK_Composite_Highres/png?TIME=2017-11-16T18:30:00Z' +
+                        'wxobs/RADAR_UK_Composite_Highres/png?' +
+                        'TIME=' + latestDate.stringValue + 'Z' +
                         '&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5'
         // var srcImage = 'https://developers.google.com/maps/documentation/' +
         //     'javascript/examples/full/images/talkeetna.png';

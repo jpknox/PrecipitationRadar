@@ -1,5 +1,7 @@
 function loadXMLDoc(theURL)
 {
+    var xmlhttp=false;
+
     if (window.XMLHttpRequest)
     {// code for IE7+, Firefox, Chrome, Opera, Safari, SeaMonkey
         xmlhttp=new XMLHttpRequest();
@@ -17,4 +19,6 @@ function loadXMLDoc(theURL)
     }
     xmlhttp.open("GET", theURL, false);
     xmlhttp.send();
+
+    return xmlhttp.responseXML;
 }
