@@ -18,30 +18,29 @@
       }
     </style>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_z6QLzYZK_1bCIAt5UX8IQ7paen7RGz4"></script>
-    <script src="parseXml.js"></script>
+    <script src="MetOffice.js"></script>
+	<script src="parseXml.js"></script>
     <script>
 
-      //Get the preliminary image data
-      var xmlDoc = loadXMLDoc('http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5');
-      // console.log(xmlHttp);
-      var latestDate = xmlDoc.evaluate(
-        '/Layers/Layer[@displayName="Rainfall"]/Service[@name="OBSERVATIONS"]/Times/Time[1]',
-        xmlDoc,
-        null,
-        XPathResult.STRING_TYPE,
-        null
-      );
-      console.log(latestDate.stringValue);
-
-
-      //Get the image
+	
+	//Get latest timestamp
+//	var xmlDoc = loadXMLDoc('http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5');
+	// console.log(xmlHttp);
+//	var latestDate = xmlDoc.evaluate(
+//		'/Layers/Layer[@displayName="Rainfall"]/Service[@name="OBSERVATIONS"]/Times/Time[1]',
+//		xmlDoc,
+//		null,
+//		XPathResult.STRING_TYPE,
+//		null
+//	);
+//	console.log(latestDate.stringValue);
 
       var overlay;
       USGSOverlay.prototype = new google.maps.OverlayView();
 
       // Initialize the map and the custom overlay.
-
-      function initMap() {
+	  
+	function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 6,
           center: {lat: 54.500000, lng: -3.500000},
@@ -52,11 +51,18 @@
             new google.maps.LatLng(48.000000, -12.000000),
             new google.maps.LatLng(61.000000, 5.000000));
 
-        // The photograph is courtesy of the U.S. Geological Survey.
-        var srcImage = 'http://datapoint.metoffice.gov.uk/public/data/layer/' +
-                        'wxobs/RADAR_UK_Composite_Highres/png?' +
-                        'TIME=' + latestDate.stringValue + 'Z' +
-                        '&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5'
+        // Download image from MetOffice
+		var metOffice = new MetOffice();
+		var srcImage = metOffice.buildImage();
+		var testRainfallImage = document.createElement("img");
+		testRainfallImage.src = srcImage;
+		document.getElementById('body').appendChild(testRainfallImage);
+		
+//		var srcImage = 'http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:0&TILEROW=0&TILECOL=0&DIM_RUN=2017-11-24T15:15:00Z&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
+//        var srcImage = 'http://datapoint.metoffice.gov.uk/public/data/layer/' +
+//                        'wxobs/RADAR_UK_Composite_Highres/png?' +
+//                        'TIME=' + latestDate.stringValue + 'Z' +
+//                        '&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5'
         // var srcImage = 'https://developers.google.com/maps/documentation/' +
         //     'javascript/examples/full/images/talkeetna.png';
 
@@ -136,10 +142,19 @@
         this.div_ = null;
       };
 
-      google.maps.event.addDomListener(window, 'load', initMap);
+	function testFunction() {
+		var metOffice = new MetOffice();
+		var srcImage = metOffice.buildImage();
+		console.log("TestFunction :" + srcImage);
+		var testRainfallImage = document.createElement("img");
+		testRainfallImage.src = srcImage;
+		document.body.appendChild(testRainfallImage);
+	}
+
+      //google.maps.event.addDomListener(window, 'load', initMap);
     </script>
   </head>
-  <body>
+  <body onload="testFunction()">
     <div id="map"></div>
   </body>
 </html>
