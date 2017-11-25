@@ -1,13 +1,13 @@
 function MetOffice() {
 	var matrixVersion = 0;
 	var dimension = Math.pow(2, matrixVersion);
-	var tileEdgeLength = 256;
+	var tileEdgeLength = 500;
 //	var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion;
 	
 	var metOfficeDataUrl = new metOfficeUrl();
 	metOfficeDataUrl.tileMatrixValue = matrixVersion;
 
-	var rows = dimension*2;
+	var rows = dimension;
 	var columns = dimension;
 	console.log("Total columns: " + columns);
 	console.log("Total rows: " + rows);
@@ -30,7 +30,7 @@ function MetOffice() {
 				mapTile.src = metOfficeDataUrl.completeUrl();
 				mapTile.crossOrigin = "anonymous";
 				mapTile.onload = wrapDrawImage(mapTile, context, x, y, canvas);
-				console.log("Drawing a tile originating at x:" + (x % dimension) * tileEdgeLength + " y:" + (y % (dimension*2)) * tileEdgeLength + "\t with URL:" + metOfficeDataUrl.completeUrl());
+				console.log("Drawing a tile originating at x:" + (x % dimension) * tileEdgeLength + " y:" + (y % (dimension)) * tileEdgeLength + "\t with URL:" + metOfficeDataUrl.completeUrl());
 				mapTiles[tileIndex++] = mapTile;
 			}
 		}
@@ -39,7 +39,7 @@ function MetOffice() {
 
 	var wrapDrawImage = function(mapTile, context, x, y, canvas) {
 		return function() {
-					context.drawImage(mapTile, (x % dimension) * tileEdgeLength, (y % (dimension*2)) * tileEdgeLength);
+					context.drawImage(mapTile, (x % dimension) * tileEdgeLength, (y % (dimension)) * tileEdgeLength);
 				};
 	}
 }
@@ -69,7 +69,8 @@ function metOfficeUrl() {
 	this.keyValue = '5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
 	
 	this.completeUrl = function() {
-		return (
+		return 'http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/RADAR_UK_Composite_Highres/png?TIME=2017-11-25T18:45:00Z&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
+	/*	return (
 			this.baseUrl +
 			this.requestTileKey +
 			this.requestTileValue +
@@ -91,6 +92,6 @@ function metOfficeUrl() {
 			this.styleValue +
 			this.keyKey +
 			this.keyValue
-		)
+		)*/
 	}
 }
