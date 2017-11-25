@@ -1,5 +1,5 @@
 function MetOffice() {
-	var matrixVersion = 1;
+	var matrixVersion = 0;
 	var dimension = Math.pow(2, matrixVersion);
 	var tileEdgeLength = 256;
 //	var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion;
@@ -7,8 +7,10 @@ function MetOffice() {
 	var metOfficeDataUrl = new metOfficeUrl();
 	metOfficeDataUrl.tileMatrixValue = matrixVersion;
 
-	var rows = dimension;
+	var rows = dimension*2;
 	var columns = dimension;
+	console.log("Total columns: " + columns);
+	console.log("Total rows: " + rows);
 	
 	this.buildImage = function() {
 		var canvas = document.createElement("canvas");
@@ -28,7 +30,7 @@ function MetOffice() {
 				mapTile.src = metOfficeDataUrl.completeUrl();
 				mapTile.crossOrigin = "anonymous";
 				mapTile.onload = wrapDrawImage(mapTile, context, x, y, canvas);
-				console.log("Drawing a tile originating at x:" + (x % dimension) * tileEdgeLength + " y:" + (y % dimension) * tileEdgeLength + "\t with URL:" + metOfficeDataUrl.completeUrl());
+				console.log("Drawing a tile originating at x:" + (x % dimension) * tileEdgeLength + " y:" + (y % (dimension*2)) * tileEdgeLength + "\t with URL:" + metOfficeDataUrl.completeUrl());
 				mapTiles[tileIndex++] = mapTile;
 			}
 		}
@@ -37,7 +39,7 @@ function MetOffice() {
 
 	var wrapDrawImage = function(mapTile, context, x, y, canvas) {
 		return function() {
-					context.drawImage(mapTile, (x % dimension) * tileEdgeLength, (y % dimension) * tileEdgeLength);
+					context.drawImage(mapTile, (x % dimension) * tileEdgeLength, (y % (dimension*2)) * tileEdgeLength);
 				};
 	}
 }
@@ -51,17 +53,19 @@ function metOfficeUrl() {
 	this.tileMatrixKey = '&TILEMATRIX=';
 	this.tileRowKey = '&TILEROW=';
 	this.tileColKey = '&TILECOL=';
-	this.dimRunKey = '&DIM_RUN=';
+	this.timeKey = '&TIME=';
+	this.styleKey = '&STYLE=';
 	this.keyKey = '&key=';
 	
 	this.requestTileValue = 'gettile';
 	this.layerValue = 'RADAR_UK_Composite_Highres';
 	this.formatValue = 'image/png';
-	this.tileMatrixSetValue = 'EPSG:29903';
+	this.tileMatrixSetValue = 'EPSG:27700';
 	this.tileMatrixValue = '0';
 	this.tileRowValue = '0';
 	this.tileColValue = '0';
-	this.dimRunValue = '2017-11-25T15:30:00Z';
+	this.timeValue = '2017-11-25T17:15:00Z';
+	this.styleValue = 'Bitmap 1km Blue-Pale blue gradient 0.01 to 32mm/hr';
 	this.keyValue = '5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
 	
 	this.completeUrl = function() {
@@ -81,8 +85,10 @@ function metOfficeUrl() {
 			this.tileRowValue +
 			this.tileColKey +
 			this.tileColValue +
-			this.dimRunKey +
-			this.dimRunValue +
+			this.timeKey +
+			this.timeValue +
+			this.styleKey +
+			this.styleValue +
 			this.keyKey +
 			this.keyValue
 		)

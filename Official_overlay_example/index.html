@@ -3,7 +3,7 @@
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Adding a Custom Overlay</title>
+    <title>Raindar</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -40,7 +40,7 @@
 	  
 	function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 6,
+          zoom: 5,
           center: {lat: 54.500000, lng: -3.500000},
           mapTypeId: 'satellite'
         });
@@ -72,7 +72,7 @@
         // Define a property to hold the image's div. We'll
         // actually create this div upon receipt of the onAdd()
         // method so we'll leave it null for now.
-        this.canvas_ = null;
+        this.div_ = null;
 
         // Explicitly call setMap on this overlay.
         this.setMap(map);
@@ -84,8 +84,8 @@
        */
       USGSOverlay.prototype.onAdd = function() {
 
-		var metOffice = new MetOffice();
-		var canvas = metOffice.buildImage();
+		//var metOffice = new MetOffice();
+		var canvas = this.image_;
 		this.canvas_ = canvas;
 
         // Add the element to the "overlayLayer" pane.
@@ -101,6 +101,7 @@
 
         // Resize the image's div to fit the indicated dimensions.
         var canvas = this.canvas_;
+		canvas.style.position = 'absolute';
         canvas.style.left = sw.x + 'px';
         canvas.style.top = ne.y + 'px';
         canvas.style.width = (ne.x - sw.x) + 'px';
@@ -113,15 +114,6 @@
         this.canvas.parentNode.removeChild(this.canvas);
         this.canvas = null;
       };
-
-	function testFunction() {
-		var metOffice = new MetOffice();
-		var srcImage = metOffice.buildImage();
-		console.log("TestFunction :" + srcImage);
-		var testRainfallImage = document.createElement("img");
-		testRainfallImage.src = srcImage;
-		document.body.appendChild(testRainfallImage);
-	}
 
       google.maps.event.addDomListener(window, 'load', initMap);
     </script>
