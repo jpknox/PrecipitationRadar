@@ -4,20 +4,24 @@ function MetOffice() {
 	var tileEdgeLength = 500;
 //	var baseUrl = "http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:" + matrixVersion;
 	
-	var metOfficeDataUrl = new metOfficeUrl();
-	metOfficeDataUrl.tileMatrixValue = matrixVersion;
 
 	var rows = dimension;
 	var columns = dimension;
 	console.log("Total columns: " + columns);
 	console.log("Total rows: " + rows);
 	
-	this.buildImage = function() {
+	this.buildImage = function(date) {
 		var canvas = document.createElement("canvas");
 		canvas.width = tileEdgeLength * columns;
 		canvas.height = tileEdgeLength * rows;
 		var context = canvas.getContext("2d");
 
+		
+		var metOfficeDataUrl = new metOfficeUrl();
+		metOfficeDataUrl.tileMatrixValue = matrixVersion;
+		metOfficeDataUrl.timeValue = date;
+		console.log("date: " + metOfficeDataUrl.timeValue);
+		
 		var numberOfTiles = columns * rows;
 		var x, y, tileIndex = 0;
 		var mapTiles = new Array();
@@ -69,7 +73,7 @@ function metOfficeUrl() {
 	this.keyValue = '5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
 	
 	this.completeUrl = function() {
-		return 'http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/RADAR_UK_Composite_Highres/png?TIME=2017-11-25T18:45:00Z&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
+		return 'http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/RADAR_UK_Composite_Highres/png?TIME=' + this.timeValue + 'Z&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
 	/*	return (
 			this.baseUrl +
 			this.requestTileKey +

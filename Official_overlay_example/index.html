@@ -22,18 +22,6 @@
 	<script src="parseXml.js"></script>
     <script>
 
-	
-	//Get latest timestamp
-//	var xmlDoc = loadXMLDoc('http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5');
-	// console.log(xmlHttp);
-//	var latestDate = xmlDoc.evaluate(
-//		'/Layers/Layer[@displayName="Rainfall"]/Service[@name="OBSERVATIONS"]/Times/Time[1]',
-//		xmlDoc,
-//		null,
-//		XPathResult.STRING_TYPE,
-//		null
-//	);
-//	console.log(latestDate.stringValue);
 
       var overlay;
       USGSOverlay.prototype = new google.maps.OverlayView();
@@ -50,8 +38,17 @@
             new google.maps.LatLng(61.000000, 5.000000));
 
         // Download image from MetOffice
+			//Get latest timestamp
+		var xmlDoc = loadXMLDoc('http://datapoint.metoffice.gov.uk/public/data/layer/wxobs/all/xml/capabilities?key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5');
+		var latestDate = xmlDoc.evaluate(
+			'/Layers/Layer[@displayName="Rainfall"]/Service[@name="OBSERVATIONS"]/Times/Time[1]',
+			xmlDoc,
+			null,
+			XPathResult.STRING_TYPE,
+			null
+		);
 		var metOffice = new MetOffice();
-		var srcImage = metOffice.buildImage();
+		var srcImage = metOffice.buildImage(latestDate.stringValue);
 		
 //		var srcImage = 'http://datapoint.metoffice.gov.uk/public/data/inspire/view/wmts?REQUEST=gettile&LAYER=RADAR_UK_Composite_Highres&FORMAT=image/png&TILEMATRIXSET=EPSG:29903&TILEMATRIX=EPSG:29903:0&TILEROW=0&TILECOL=0&DIM_RUN=2017-11-24T15:15:00Z&key=5b2b0c85-7f41-47a6-9b53-87f842d08ca5';
 //        var srcImage = 'http://datapoint.metoffice.gov.uk/public/data/layer/' +
